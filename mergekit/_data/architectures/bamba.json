@@ -1,0 +1,106 @@
+{
+    "model_type": "bamba",
+    "architectures": [
+        "BambaForCausalLM"
+    ],
+    "pre_weights": [
+        {
+            "name": "model.embed_tokens.weight",
+            "is_embed": true
+        }
+    ],
+    "post_weights": [
+        {
+            "name": "model.final_layernorm.weight"
+        },
+        {
+            "name": "lm_head.weight",
+            "is_embed": true,
+            "optional": true,
+            "tied_names": [
+                "model.embeddings.weight"
+            ]
+        }
+    ],
+    "num_layers_config_key": "num_hidden_layers",
+    "layer_templates": {
+        "weights": [
+            {
+                "name": "model.layers.${layer_index}.mamba.A_log",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.dt_bias",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.D",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.conv1d.bias",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.conv1d.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.norm.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.in_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.in_proj.bias",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.out_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.mamba.out_proj.bias",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.self_attn.q_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.self_attn.k_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.self_attn.v_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.self_attn.o_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.input_layernorm.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.pre_ff_layernorm.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.feed_forward.up_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.feed_forward.gate_proj.weight",
+                "optional": true
+            },
+            {
+                "name": "model.layers.${layer_index}.feed_forward.down_proj.weight",
+                "optional": true
+            }
+        ]
+    }
+}

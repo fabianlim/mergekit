@@ -1,0 +1,18 @@
+slices:
+  - sources:
+      - model: Bamba-tiny-dev
+        layer_range: [0, 2]
+        parameters:
+          weight: 1.0
+  - sources:
+      - model: Bamba-tiny-dev
+        layer_range: [2, 3]
+        parameters:
+          weight: 1.0
+  - sources:
+      - model: Bamba-tiny-dev
+        layer_range: [3, 12]
+        parameters:
+          weight: 1.0
+merge_method: linear
+dtype: float16
