@@ -1,0 +1,74 @@
+# slerp, where each mamba slice is gradient from 0 to 1.0
+slices:
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [0, 9]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [0, 9]
+    parameters:
+      t: 
+        - filter: mamba
+          value: [0, 0.3, 0.5, 0.7, 1]
+        - filter: feed_forward
+          value: [1, 0.5, 0.7, 0.3, 0]
+        - value: 0.5
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [9, 10]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [9, 10]
+    parameters: 
+      t: 0.5
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [10, 18]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [10, 18]
+    parameters:
+      t: 
+        - filter: mamba
+          value: [1, 0.5, 0.7, 0.3, 0]
+        - filter: feed_forward
+          value: [0, 0.3, 0.5, 0.7, 1]
+        - value: 0.5
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [18, 19]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [18, 19]
+    parameters: 
+      t: 0.5
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [19, 27]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [19, 27]
+    parameters:
+      t: 
+        - filter: mamba
+          value: [0, 0.3, 0.5, 0.7, 1]
+        - filter: feed_forward
+          value: [1, 0.5, 0.7, 0.3, 0]
+        - value: 0.5
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [27, 28]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [27, 28]
+    parameters: 
+      t: 0.5
+  - sources:
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+        layer_range: [28, 32]
+      - model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+        layer_range: [28, 32]
+    parameters:
+      t: 
+        - filter: mamba
+          value: [1, 0.5, 0.7, 0.3, 0]
+        - filter: feed_forward
+          value: [0, 0.3, 0.5, 0.7, 1]
+        - value: 0.5
+merge_method: slerp
+base_model: tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+dtype: float16
