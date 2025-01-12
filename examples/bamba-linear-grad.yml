@@ -1,16 +1,30 @@
 MODELS:
-  # - &model1 tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
-  # - &model2 tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
+  - &model1 tuluv3/2.3T_base/lr1e_6_wd_0_gbs_16-HF
+  - &model2 tuluv3/2.3T_base/lr1e_6_wd_0_gbs_128_base-HF
   # - &model1 ../Bamba-9b-2.8T
   # - &model2 ../Bamba-9b-2.1T-finemath 
-  - &model1 ../Bamba-9b-2.3T-HF
-  - &model2 tuluv3/2.3T_base/lr1e_6_wd_0.1_gbs_16-HF
+  # - &model1 ../Bamba-9b-2.3T-HF
+  # - &model2 tuluv3/2.3T_base/lr1e_6_wd_0.1_gbs_16-HF
 
 PARAMETERS: 
   - &params1
-    weight: .8
+    weight:
+      - filter: mamba
+        value: [1, 0.5, 0.7, 0.3, 0]
+      - filter: feed_forward
+        value: [0, 0.3, 0.5, 0.7, 1]
+      - value: 0.5
   - &params2
-    weight: .2
+    weight: 
+      - filter: mamba
+        value: [0, 0.3, 0.5, 0.7, 1]
+      - filter: feed_forward
+        value: [1, 0.5, 0.7, 0.3, 0]
+      - value: 0.5
+  - &params_attn1
+    weight: 0.5
+  - &params_attn2
+    weight: 0.5
 
 # model soup
 slices:
@@ -24,24 +38,24 @@ slices:
   - sources:
       - model: *model1
         layer_range: [9, 10]
-        parameters: *params1
+        parameters: *params_attn1
       - model: *model2
         layer_range: [9, 10]
-        parameters: *params2
+        parameters: *params_attn2
   - sources:
       - model: *model1
         layer_range: [10, 18]
-        parameters: *params1
+        parameters: *params2
       - model: *model2
         layer_range: [10, 18]
-        parameters: *params2
+        parameters: *params1
   - sources:
       - model: *model1
         layer_range: [18, 19]
-        parameters: *params1
+        parameters: *params_attn1
       - model: *model2
         layer_range: [18, 19]
-        parameters: *params2
+        parameters: *params_attn2
   - sources:
       - model: *model1
         layer_range: [19, 27]
@@ -52,16 +66,16 @@ slices:
   - sources:
       - model: *model1
         layer_range: [27, 28]
-        parameters: *params1
+        parameters: *params_attn1
       - model: *model2 
         layer_range: [27, 28]
-        parameters: *params2
+        parameters: *params_attn2
   - sources:
       - model: *model1
         layer_range: [28, 32]
-        parameters: *params1
+        parameters: *params2
       - model: *model2
         layer_range: [28, 32]
-        parameters: *params2
+        parameters: *params1
 merge_method: linear
 dtype: float16
